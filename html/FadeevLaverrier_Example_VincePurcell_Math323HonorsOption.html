@@ -1,0 +1,343 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Vincent Purcell - MATH323 - Honors Option - Fadeev Laverrier Algorithm</title><meta name="generator" content="MATLAB 9.7"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2020-03-19"><meta name="DC.source" content="FadeevLaverrier_Example_VincePurcell_Math323HonorsOption.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Vincent Purcell - MATH323 - Honors Option - Fadeev Laverrier Algorithm</h1><!--introduction--><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Example 1 of Fadeev-Laverrier Function</a></li><li><a href="#2">Example 2 of Fadeev-Laverrier Function</a></li><li><a href="#3">Example 3 of Fadeev-Laverrier Function</a></li><li><a href="#4">Example 4 of Fadeev-Laverrier Function</a></li><li><a href="#5">Fadeev-Laverrier Function</a></li><li><a href="#6">Function to Display Polynomial from Coefficients</a></li><li><a href="#7">Function to Output Results</a></li></ul></div><h2 id="1">Example 1 of Fadeev-Laverrier Function</h2><p>Test fadeev-laverrier algorithm of 2x2 matrix</p><pre class="codeinput">test1 = [6 -1;2 3];
+[coeff, inv] = fadeevLaverrier(test1);
+
+<span class="comment">% output results of Fadeev Laverrier algorithm</span>
+outputResults(test1, inv, 1, coeff);
+</pre><h2 id="2">Example 2 of Fadeev-Laverrier Function</h2><p>Test fadeev-laverrier algorithm of 3x3 matrix</p><pre class="codeinput">test2 = [  3   -5   5;
+           2  -10   7;
+          -1   20  11];
+
+[coeff2, inv2] = fadeevLaverrier(test2);
+
+<span class="comment">% output results of Fadeev Laverrier algorithm</span>
+outputResults(test2, inv2, 2, coeff2);
+</pre><h2 id="3">Example 3 of Fadeev-Laverrier Function</h2><p>Test fadeev-laverrier algorithm of 4x4 matrix</p><pre class="codeinput">test3 = [ 2  5  6   7;
+          6  7 -10  6;
+          2 -4  2  -1;
+         -2 -2  20  5 ];
+
+[coeff3, inv3] = fadeevLaverrier(test3);
+
+<span class="comment">% output results of Fadeev Laverrier algorithm</span>
+outputResults(test3, inv3, 3, coeff3);
+</pre><h2 id="4">Example 4 of Fadeev-Laverrier Function</h2><p>Test fadeev-laverrier algorithm of 7x7 Magic Matrix</p><pre class="codeinput">test4 = magic(7);
+[coeff4, inv4] = fadeevLaverrier(test4);
+
+<span class="comment">% output results of Fadeev Laverrier algorithm</span>
+outputResults(test4, inv4, 4, coeff4);
+</pre><h2 id="5">Fadeev-Laverrier Function</h2><p>This function takes an input matrix A and outputs the coefficients of the characteristic polynomial. Also with the final increment of the Eigenvalue diagonal, matrix B in the below function, you can calculate the inverse of A without any extra computational power.</p><pre class="codeinput"><span class="keyword">function</span> [coeff,inv] = fadeevLaverrier(A)
+    <span class="comment">%</span>
+    <span class="comment">% fadeevLaverrier</span>
+    <span class="comment">% Function to generate characteristic polynomial of a given MATRIX A</span>
+    <span class="comment">% as well as the inverse of A without extra computational power.</span>
+    <span class="comment">%</span>
+    [n,~]=size(A);
+    coeff = ones(1,n+1);
+
+    LF_mat = A;
+    <span class="keyword">for</span> i = 2:n
+        <span class="comment">% copy of matrix saved to calculate inverse after coefficient</span>
+        <span class="comment">% polynomial is found</span>
+        inv_mat = LF_mat;
+        <span class="comment">% Take negative sum of diagonal of LF_mat divided by n-1</span>
+        <span class="comment">% to get coeff of increment i</span>
+        coeff(i) = -trace(LF_mat)/(i-1);
+        <span class="comment">% Calculate new LF_mat by adding coefficient to diagonal of LF_mat</span>
+        <span class="comment">% and then multiplying it the original matrix A</span>
+        LF_mat = A*(LF_mat+coeff(i)*eye(n));
+    <span class="keyword">end</span>
+    <span class="comment">% Take negative sum of diagonal of LF_mat divided by n to get final</span>
+    <span class="comment">% coefficient</span>
+    coeff(n+1) = -trace(LF_mat)/n;
+    <span class="comment">% Get Inverse of original function at no extra cost to computation time</span>
+    inv=-(inv_mat+coeff(n)*eye(n))/coeff(n+1);
+<span class="keyword">end</span>
+</pre><h2 id="6">Function to Display Polynomial from Coefficients</h2><p>Takes a input coefficient vector and returns a string that can display the function for the Matlab Publisher</p><pre class="codeinput"><span class="keyword">function</span> [poly_string] = dispPolynomial(vec)
+    lambda_num = size(vec,2)-1;
+    poly_string = <span class="string">"\x03bb^"</span> + num2str(lambda_num);
+    <span class="keyword">for</span> i = 2:size(vec,2)
+       lambda_num = size(vec,2)-i;
+       poly_string = poly_string + <span class="string">" + "</span> + num2str(vec(i)) + <span class="string">"\x03bb^"</span> + num2str(lambda_num);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+
+*** Example1 ***
+
+Test Matrix 1:
+     6    -1
+     2     3
+
+Coefficient Vector:
+     1    -9    20
+
+Polynomial of Matrix:
+&#955;^2 + -9&#955;^1 + 20&#955;^0
+
+Inverse of Matrix:
+    0.1500    0.0500
+   -0.1000    0.3000
+
+</pre><pre class="codeoutput">
+
+*** Example2 ***
+
+Test Matrix 2:
+     3    -5     5
+     2   -10     7
+    -1    20    11
+
+Coefficient Vector:
+     1    -4  -232   455
+
+Polynomial of Matrix:
+&#955;^3 + -4&#955;^2 + -232&#955;^1 + 455&#955;^0
+
+Inverse of Matrix:
+    0.5495   -0.3407   -0.0330
+    0.0637   -0.0835    0.0242
+   -0.0659    0.1209    0.0440
+
+</pre><pre class="codeoutput">
+
+*** Example3 ***
+
+Test Matrix 3:
+     2     5     6     7
+     6     7   -10     6
+     2    -4     2    -1
+    -2    -2    20     5
+
+Coefficient Vector:
+     1   -16    51   688  -604
+
+Polynomial of Matrix:
+&#955;^4 + -16&#955;^3 + 51&#955;^2 + 688&#955;^1 + -604&#955;^0
+
+Inverse of Matrix:
+    0.7715   -0.4139    0.4834   -0.4868
+    0.8675   -0.5298    0.1788   -0.5430
+    0.4305   -0.2781    0.1689   -0.2351
+   -1.0662    0.7351   -0.4106    0.7285
+
+</pre><pre class="codeoutput">
+
+*** Example4 ***
+
+Test Matrix 4:
+    30    39    48     1    10    19    28
+    38    47     7     9    18    27    29
+    46     6     8    17    26    35    37
+     5    14    16    25    34    36    45
+    13    15    24    33    42    44     4
+    21    23    32    41    43     3    12
+    22    31    40    49     2    11    20
+
+Coefficient Vector:
+   1.0e+11 *
+
+  Columns 1 through 7
+
+    0.0000   -0.0000   -0.0000    0.0000    0.0001   -0.0101   -0.0199
+
+  Column 8
+
+    3.4805
+
+Polynomial of Matrix:
+&#955;^7 + -175&#955;^6 + -4802&#955;^5 + 840350&#955;^4 + 5764801&#955;^3 + -1008840175&#955;^2 + -1988873152&#955;^1 + 348052801600&#955;^0
+
+Inverse of Matrix:
+    0.0008    0.0008    0.0212   -0.0195   -0.0021    0.0041    0.0004
+   -0.0021    0.0241   -0.0195    0.0012    0.0004    0.0008    0.0008
+    0.0212   -0.0191    0.0004   -0.0021    0.0037    0.0008    0.0008
+   -0.0170    0.0008    0.0008    0.0008    0.0008    0.0008    0.0187
+    0.0008    0.0008   -0.0021    0.0037    0.0012    0.0207   -0.0195
+    0.0008    0.0008    0.0012    0.0004    0.0212   -0.0224    0.0037
+    0.0012   -0.0025    0.0037    0.0212   -0.0195    0.0008    0.0008
+
+</pre><h2 id="7">Function to Output Results</h2><pre class="codeinput"><span class="keyword">function</span> outputResults(mat,inv,experiment_num,coeff)
+    poly_string = dispPolynomial(coeff);
+    fprintf(<span class="string">"\n\n*** Example"</span> + num2str(experiment_num) + <span class="string">" ***\n\n"</span>);
+    fprintf(<span class="string">"Test Matrix "</span> + num2str(experiment_num) + <span class="string">":\n"</span>);
+    disp(mat);
+    fprintf(<span class="string">'Coefficient Vector:\n'</span>);
+    disp(coeff);
+    fprintf(<span class="string">'Polynomial of Matrix:\n'</span>);
+    fprintf(poly_string);
+    fprintf(<span class="string">'\n\nInverse of Matrix:\n'</span>);
+    disp(inv);
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2019b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Vincent Purcell - MATH323 - Honors Option - Fadeev Laverrier Algorithm
+%% Example 1 of Fadeev-Laverrier Function
+% Test fadeev-laverrier algorithm of 2x2 matrix
+test1 = [6 -1;2 3];
+[coeff, inv] = fadeevLaverrier(test1);
+
+% output results of Fadeev Laverrier algorithm
+outputResults(test1, inv, 1, coeff);
+
+%% Example 2 of Fadeev-Laverrier Function
+% Test fadeev-laverrier algorithm of 3x3 matrix
+test2 = [  3   -5   5;
+           2  -10   7;
+          -1   20  11];
+
+[coeff2, inv2] = fadeevLaverrier(test2);
+
+% output results of Fadeev Laverrier algorithm
+outputResults(test2, inv2, 2, coeff2);
+
+%% Example 3 of Fadeev-Laverrier Function
+% Test fadeev-laverrier algorithm of 4x4 matrix
+test3 = [ 2  5  6   7;
+          6  7 -10  6;
+          2 -4  2  -1;
+         -2 -2  20  5 ];
+
+[coeff3, inv3] = fadeevLaverrier(test3);
+
+% output results of Fadeev Laverrier algorithm
+outputResults(test3, inv3, 3, coeff3);
+
+%% Example 4 of Fadeev-Laverrier Function
+% Test fadeev-laverrier algorithm of 7x7 Magic Matrix
+test4 = magic(7);
+[coeff4, inv4] = fadeevLaverrier(test4);
+
+% output results of Fadeev Laverrier algorithm
+outputResults(test4, inv4, 4, coeff4);
+
+%% Fadeev-Laverrier Function
+% This function takes an input matrix A and outputs the coefficients of the
+% characteristic polynomial. Also with the final increment of the
+% Eigenvalue diagonal, matrix B in the below function, you can calculate
+% the inverse of A without any extra computational power.
+
+function [coeff,inv] = fadeevLaverrier(A)
+    %
+    % fadeevLaverrier 
+    % Function to generate characteristic polynomial of a given MATRIX A 
+    % as well as the inverse of A without extra computational power.
+    %
+    [n,~]=size(A);
+    coeff = ones(1,n+1);
+
+    LF_mat = A;
+    for i = 2:n
+        % copy of matrix saved to calculate inverse after coefficient
+        % polynomial is found
+        inv_mat = LF_mat;
+        % Take negative sum of diagonal of LF_mat divided by n-1
+        % to get coeff of increment i
+        coeff(i) = -trace(LF_mat)/(i-1);
+        % Calculate new LF_mat by adding coefficient to diagonal of LF_mat
+        % and then multiplying it the original matrix A
+        LF_mat = A*(LF_mat+coeff(i)*eye(n));
+    end
+    % Take negative sum of diagonal of LF_mat divided by n to get final
+    % coefficient
+    coeff(n+1) = -trace(LF_mat)/n;
+    % Get Inverse of original function at no extra cost to computation time
+    inv=-(inv_mat+coeff(n)*eye(n))/coeff(n+1);
+end
+
+%% Function to Display Polynomial from Coefficients
+% Takes a input coefficient vector and returns a string that can display
+% the function for the Matlab Publisher
+
+function [poly_string] = dispPolynomial(vec)
+    lambda_num = size(vec,2)-1;
+    poly_string = "\x03bb^" + num2str(lambda_num);
+    for i = 2:size(vec,2)
+       lambda_num = size(vec,2)-i;
+       poly_string = poly_string + " + " + num2str(vec(i)) + "\x03bb^" + num2str(lambda_num);
+    end
+end
+
+%% Function to Output Results
+function outputResults(mat,inv,experiment_num,coeff)
+    poly_string = dispPolynomial(coeff);
+    fprintf("\n\n*** Example" + num2str(experiment_num) + " ***\n\n");
+    fprintf("Test Matrix " + num2str(experiment_num) + ":\n");
+    disp(mat);
+    fprintf('Coefficient Vector:\n');
+    disp(coeff);
+    fprintf('Polynomial of Matrix:\n');
+    fprintf(poly_string);
+    fprintf('\n\nInverse of Matrix:\n');
+    disp(inv);
+end
+
+##### SOURCE END #####
+--></body></html>
